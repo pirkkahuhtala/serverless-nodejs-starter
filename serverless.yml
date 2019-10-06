@@ -1,0 +1,24 @@
+service: sacu-admin-notifications-service
+
+provider:
+  name: aws
+  region: eu-west-1
+  runtime: nodejs8.10
+  stage: ${opt:stage, 'local'}
+
+plugins:
+  - serverless-webpack
+  - serverless-offline
+
+custom:
+  serverless-offline:
+    location: .webpack/service
+    port: 8000
+
+functions:
+  helloHandler:
+    handler: src/handler.hello
+    events:
+      - http:
+          path: '/'
+          method: get
